@@ -57,10 +57,10 @@ app.get("/", wrapAsync(async (req, res) => {
     res.render("home.ejs", { featuredBooks });
 }));
 
-// Index / Search / Filter Route
+// Index / Search / Filter / Sort Route
 app.get("/books", wrapAsync(async(req, res) => {
     let query = { isHidden: { $ne: true } };
-    const { search, genre } = req.query;
+    const { search, genre, sort, minPrice, maxPrice } = req.query;
 
     if (search) {
         query.$or = [
@@ -74,9 +74,22 @@ app.get("/books", wrapAsync(async(req, res) => {
         query.genre = { $regex: genre, $options: "i" };
     }
 
-    const allBooks = await Book.find(query);
-    res.render("books/index.ejs", { allBooks, search, genre });
+    if (minPrice || maxPrice) {
+        query.price = {};
+        if (minPrice) query.price.$gte = Number(minPrice);
+        if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    let sortOptions = {};
+    if (sort === "price_asc") sortOptions.price = 1;
+    else if (sort === "price_desc") sortOptions.price = -1;
+    else if (sort === "title_asc") sortOptions.title = 1;
+    else if (sort === "newest") sortOptions.releasedate = -1;
+
+    const allBooks = await Book.find(query).sort(sortOptions);
+    res.render("books/index.ejs", { allBooks, search, genre, sort, minPrice, maxPrice });
 }));
+
 
 // Live Instant API Search Endpoint
 app.get("/api/search", wrapAsync(async (req, res) => {

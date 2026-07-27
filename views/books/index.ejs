@@ -1,24 +1,128 @@
 <% layout("/layouts/boilerplate") -%>
 
+<%
+  // Helper to preserve active query parameters when changing filters
+  function buildUrl(extra) {
+      let params = new URLSearchParams();
+      if (typeof search !== 'undefined' && search) params.set("search", search);
+      if (typeof genre !== 'undefined' && genre) params.set("genre", genre);
+      if (typeof minPrice !== 'undefined' && minPrice) params.set("minPrice", minPrice);
+      if (typeof maxPrice !== 'undefined' && maxPrice) params.set("maxPrice", maxPrice);
+      if (typeof sort !== 'undefined' && sort) params.set("sort", sort);
+
+      for (let k in extra) {
+          if (extra[k] === null || extra[k] === undefined || extra[k] === "") {
+              params.delete(k);
+          } else {
+              params.set(k, extra[k]);
+          }
+      }
+      let str = params.toString();
+      return str ? "/books?" + str : "/books";
+  }
+%>
+
 <div class="container my-5">
+    <!-- Header Title -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom">
         <div>
             <h1 class="font-serif display-6 mb-1">Explore <em>All Books</em></h1>
-            <p class="text-muted mb-0">Browse our complete collection of stories and novels</p>
+            <p class="text-muted mb-0">Browse our complete collection of stories, romance, thrillers, and classics</p>
         </div>
 
-        <% if ((typeof search !== 'undefined' && search) || (typeof genre !== 'undefined' && genre)) { %>
-            <div class="mt-3 mt-md-0">
-                <span class="badge bg-primary-subtle text-primary border me-2 py-2 px-3 rounded-pill">
-                    Filter: <strong><%= search || genre %></strong>
+        <div class="mt-3 mt-md-0 d-flex align-items-center gap-2">
+            <span class="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill font-monospace">
+                <i class="fa-solid fa-book-open text-primary me-1"></i> <strong><%= allBooks ? allBooks.length : 0 %></strong> Titles
+            </span>
+        </div>
+    </div>
+
+    <!-- Filter & Sort Toolbar Card -->
+    <div class="card border rounded-4 p-3 p-md-4 bg-white shadow-sm mb-4 filter-toolbar-card">
+        <div class="row align-items-center gy-3">
+            <!-- Price Range Filter Pills -->
+            <div class="col-lg-8">
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <span class="fw-bold small text-dark text-uppercase tracking-wider me-2 d-flex align-items-center gap-1">
+                        <i class="fa-solid fa-tags text-primary"></i> Price:
+                    </span>
+                    
+                    <% 
+                        const curMin = typeof minPrice !== 'undefined' ? minPrice : '';
+                        const curMax = typeof maxPrice !== 'undefined' ? maxPrice : '';
+                        const isAllPrice = !curMin && !curMax;
+                    %>
+                    
+                    <a href="<%= buildUrl({ minPrice: '', maxPrice: '' }) %>" 
+                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= isAllPrice ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       All Prices
+                    </a>
+
+                    <a href="<%= buildUrl({ minPrice: '', maxPrice: '300' }) %>" 
+                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= (curMax == '300' && !curMin) ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       Under &#8377;300
+                    </a>
+
+                    <a href="<%= buildUrl({ minPrice: '300', maxPrice: '500' }) %>" 
+                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= (curMin == '300' && curMax == '500') ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       &#8377;300 - &#8377;500
+                    </a>
+
+                    <a href="<%= buildUrl({ minPrice: '500', maxPrice: '' }) %>" 
+                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= (curMin == '500' && !curMax) ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       Over &#8377;500
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sort By Select Dropdown -->
+            <div class="col-lg-4 text-lg-end">
+                <div class="d-inline-flex align-items-center justify-content-lg-end gap-2 w-100 w-lg-auto">
+                    <label for="catalog-sort-select" class="fw-bold small text-dark text-uppercase tracking-wider mb-0 flex-shrink-0 d-flex align-items-center gap-1">
+                        <i class="fa-solid fa-arrow-down-wide-short text-primary"></i> Sort By:
+                    </label>
+                    <select id="catalog-sort-select" class="form-select form-select-sm rounded-pill border-secondary shadow-none fw-medium py-2 px-3 bg-white" onchange="handleSortChange(this.value)">
+                        <option value="" <%= (typeof sort === 'undefined' || !sort) ? 'selected' : '' %>>Featured / Recommended</option>
+                        <option value="price_asc" <%= (typeof sort !== 'undefined' && sort === 'price_asc') ? 'selected' : '' %>>Price: Low to High</option>
+                        <option value="price_desc" <%= (typeof sort !== 'undefined' && sort === 'price_desc') ? 'selected' : '' %>>Price: High to Low</option>
+                        <option value="title_asc" <%= (typeof sort !== 'undefined' && sort === 'title_asc') ? 'selected' : '' %>>Title: A to Z</option>
+                        <option value="newest" <%= (typeof sort !== 'undefined' && sort === 'newest') ? 'selected' : '' %>>Newest Arrivals</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Filter Indicator Badges -->
+        <% if ((typeof search !== 'undefined' && search) || (typeof genre !== 'undefined' && genre) || (typeof minPrice !== 'undefined' && minPrice) || (typeof maxPrice !== 'undefined' && maxPrice) || (typeof sort !== 'undefined' && sort)) { %>
+            <div class="d-flex flex-wrap align-items-center gap-2 pt-3 mt-3 border-top small">
+                <span class="text-dark fw-bold me-1 d-flex align-items-center gap-1">
+                    <i class="fa-solid fa-filter text-primary"></i> Active Filters:
                 </span>
-                <a href="/books" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-                    <i class="fa-solid fa-xmark me-1"></i> Clear
+                
+                <% if (typeof search !== 'undefined' && search) { %>
+                    <span class="badge bg-primary text-white rounded-pill px-3 py-1">Search: "<%= search %>"</span>
+                <% } %>
+                <% if (typeof genre !== 'undefined' && genre) { %>
+                    <span class="badge bg-info text-dark rounded-pill px-3 py-1">Genre: <%= genre %></span>
+                <% } %>
+                <% if (typeof minPrice !== 'undefined' && minPrice) { %>
+                    <span class="badge bg-success text-white rounded-pill px-3 py-1">Min: &#8377;<%= minPrice %></span>
+                <% } %>
+                <% if (typeof maxPrice !== 'undefined' && maxPrice) { %>
+                    <span class="badge bg-success text-white rounded-pill px-3 py-1">Max: &#8377;<%= maxPrice %></span>
+                <% } %>
+                <% if (typeof sort !== 'undefined' && sort) { %>
+                    <span class="badge bg-dark text-white rounded-pill px-3 py-1">Sort: <%= sort.replace('_', ' ') %></span>
+                <% } %>
+
+                <a href="/books" class="btn btn-sm btn-link text-danger text-decoration-none ms-auto p-0 fw-semibold">
+                    <i class="fa-solid fa-rotate-left me-1"></i> Reset All Filters
                 </a>
             </div>
         <% } %>
     </div>
 
+    <!-- Books Grid -->
     <% if (allBooks && allBooks.length > 0) { %>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
             <% for(let book of allBooks) { %>
@@ -58,16 +162,27 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             <% } %>
         </div>
     <% } else { %>
-        <div class="text-center py-5 my-4 bg-white rounded-4 border shadow-sm">
-            <i class="fa-solid fa-magnifying-glass fs-1 text-muted mb-3 d-block"></i>
-            <h3>No books found matching your search</h3>
-            <p class="text-muted">Try searching with a different keyword or browse all titles.</p>
-            <a href="/books" class="btn btn-primary rounded-pill px-4 py-2 mt-2">View All Books</a>
+        <div class="text-center py-5 my-4 bg-white rounded-4 border shadow-sm max-w-xl mx-auto p-4">
+            <i class="fa-solid fa-filter-circle-xmark display-4 text-muted mb-3 d-block"></i>
+            <h3 class="font-serif fw-bold">No books match your criteria</h3>
+            <p class="text-muted mb-4">Try selecting a different price range or clearing your active filters to view all available titles.</p>
+            <a href="/books" class="btn btn-primary rounded-pill px-5 py-2 fw-semibold shadow">Reset All Filters</a>
         </div>
     <% } %>
 </div>
+
+<script>
+    function handleSortChange(sortVal) {
+        const url = new URL(window.location.href);
+        if (sortVal) {
+            url.searchParams.set('sort', sortVal);
+        } else {
+            url.searchParams.delete('sort');
+        }
+        window.location.href = url.toString();
+    }
+</script>
