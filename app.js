@@ -115,6 +115,93 @@ app.get("/api/search", wrapAsync(async (req, res) => {
 }));
 
 
+// Authors Page Route
+app.get("/authors", wrapAsync(async (req, res) => {
+    const authors = [
+        {
+            name: "Colleen Hoover",
+            genre: "Romance & Drama",
+            bio: "#1 New York Times bestselling author of It Ends With Us and It Starts With Us, known for deeply emotional romance novels.",
+            image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+            titles: ["It Ends With Us", "It Starts With Us"],
+            badge: "Romance Bestseller",
+            badgeColor: "danger",
+            searchQuery: "Colleen+Hoover"
+        },
+        {
+            name: "Mercedes Ron",
+            genre: "New Adult Romance",
+            bio: "Argentine-Spanish author famous for the hit Culpables trilogy (My Fault / Culpa Mía) turned into viral movie adaptations.",
+            image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+            titles: ["My Fault (Culpa Mía)", "Your Fault"],
+            badge: "Wattpad Star",
+            badgeColor: "warning",
+            searchQuery: "Mercedes+Ron"
+        },
+        {
+            name: "H. D. Carlton",
+            genre: "Dark Romance & Suspense",
+            bio: "International bestselling author of dark romance and psychological suspense filled with thrilling twists and dark mystery.",
+            image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80",
+            titles: ["Does It Hurt?", "Haunting Adeline"],
+            badge: "Dark Romance Queen",
+            badgeColor: "dark",
+            searchQuery: "Carlton"
+        },
+        {
+            name: "Karen M. McManus",
+            genre: "YA Mystery & Thriller",
+            bio: "New York Times bestselling mystery author famous for high-stakes YA murder thrillers that keep readers guessing.",
+            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
+            titles: ["One of Us Is Lying", "Two Can Keep a Secret"],
+            badge: "Mystery Queen",
+            badgeColor: "info",
+            searchQuery: "McManus"
+        },
+        {
+            name: "Taylor Jenkins Reid",
+            genre: "Historical Fiction",
+            bio: "Acclaimed author of glamorous historical fiction including The Seven Husbands of Evelyn Hugo and Daisy Jones & The Six.",
+            image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
+            titles: ["The Seven Husbands of Evelyn Hugo"],
+            badge: "Bestselling Author",
+            badgeColor: "primary",
+            searchQuery: "Reid"
+        },
+        {
+            name: "Morgan Housel",
+            genre: "Finance & Psychology",
+            bio: "Former Wall Street Journal columnist and author of the global bestseller The Psychology of Money.",
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+            titles: ["The Psychology of Money"],
+            badge: "Finance Guru",
+            badgeColor: "success",
+            searchQuery: "Morgan+Housel"
+        },
+        {
+            name: "James Clear",
+            genre: "Self-Help & Growth",
+            bio: "Expert on habits and decision-making, author of the multi-million copy bestseller Atomic Habits.",
+            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+            titles: ["Atomic Habits"],
+            badge: "Habit Expert",
+            badgeColor: "secondary",
+            searchQuery: "James+Clear"
+        },
+        {
+            name: "Robert T. Kiyosaki",
+            genre: "Personal Finance",
+            bio: "Renowned investor and author of Rich Dad Poor Dad, the #1 personal finance book of all time.",
+            image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+            titles: ["Rich Dad Poor Dad"],
+            badge: "Legendary Author",
+            badgeColor: "primary",
+            searchQuery: "Kiyosaki"
+        }
+    ];
+    res.render("authors/index", { authors });
+}));
+
 // Privacy & Terms Routes
 app.get("/privacy", (req, res) => {
     res.render("info/privacy.ejs");
@@ -123,6 +210,7 @@ app.get("/privacy", (req, res) => {
 app.get("/terms", (req, res) => {
     res.render("info/terms.ejs");
 });
+
 
 
 //Show Route

@@ -41,6 +41,8 @@
             <div class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
                 <a class="nav-link fw-medium <%= (typeof currentPath !== 'undefined' && currentPath === '/') ? 'active-nav' : '' %>" href="/">Home</a>
                 <a class="nav-link fw-medium <%= (typeof currentPath !== 'undefined' && currentPath === '/books') ? 'active-nav' : '' %>" href="/books">Explore All Books</a>
+                <a class="nav-link fw-medium <%= (typeof currentPath !== 'undefined' && currentPath === '/authors') ? 'active-nav' : '' %>" href="/authors">Authors</a>
+
                 <a class="nav-link fw-medium position-relative d-inline-flex align-items-center gap-1 <%= (typeof currentPath !== 'undefined' && currentPath === '/wishlist') ? 'active-nav' : '' %>" href="/wishlist">
                     <i class="fa-solid fa-heart text-danger me-1"></i>
                     <span>Wishlist</span>

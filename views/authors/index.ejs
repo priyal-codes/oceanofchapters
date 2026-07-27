@@ -1,0 +1,82 @@
+<% layout("/layouts/boilerplate") -%>
+
+<div class="container my-5">
+    <!-- Authors Page Header -->
+    <div class="text-center max-w-2xl mx-auto mb-5">
+        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-2 font-monospace text-uppercase tracking-wider fw-bold">
+            <i class="fa-solid fa-feather-pointed me-1"></i> Literary Masters
+        </span>
+        <h1 class="font-serif display-5 fw-bold mb-2">Featured <em>Authors & Writers</em></h1>
+        <p class="text-muted lead fs-6">Meet the visionary minds crafting unforgettable romances, thrilling mysteries, and life-changing books.</p>
+    </div>
+
+    <!-- Search / Filter Authors Bar -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-6">
+            <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden border">
+                <span class="input-group-text bg-white border-0 ps-4 text-muted">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="authorSearchInput" class="form-control border-0 shadow-none ps-2" placeholder="Search authors by name or genre...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Authors Grid -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="authorsGrid">
+        <% for(let author of authors) { %>
+            <div class="col author-item" data-name="<%= author.name.toLowerCase() %>" data-genre="<%= author.genre.toLowerCase() %>">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center author-card transition-all position-relative bg-white">
+                    <div class="position-relative mx-auto mb-3" style="width: 100px; height: 100px;">
+                        <img src="<%= author.image %>" alt="<%= author.name %>" class="rounded-circle w-100 h-100 object-fit-cover shadow border border-3 border-<%= author.badgeColor %>-subtle">
+                        <span class="badge bg-<%= author.badgeColor %> rounded-circle position-absolute bottom-0 end-0 p-2 border border-2 border-white" title="<%= author.badge %>">
+                            <i class="fa-solid fa-star small"></i>
+                        </span>
+                    </div>
+
+                    <h5 class="fw-bold font-serif mb-1 text-dark"><%= author.name %></h5>
+                    <small class="badge bg-<%= author.badgeColor %> bg-opacity-10 text-<%= author.badgeColor %> rounded-pill px-3 py-1 mb-3 align-self-center">
+                        <%= author.genre %>
+                    </small>
+
+                    <p class="text-muted small mb-3 flex-grow-1">
+                        <%= author.bio %>
+                    </p>
+
+                    <div class="border-top pt-3 mt-auto">
+                        <small class="text-muted d-block mb-2 font-monospace extra-small text-uppercase">Popular Works</small>
+                        <div class="d-flex flex-wrap gap-1 justify-content-center mb-3">
+                            <% for(let title of author.titles) { %>
+                                <span class="badge bg-light text-dark border"><%= title %></span>
+                            <% } %>
+                        </div>
+                        <a href="/books?search=<%= author.searchQuery %>" class="btn btn-sm btn-ocean-primary rounded-pill w-100 fw-semibold py-2">
+                            Explore <%= author.name.split(' ')[0] %>'s Books <i class="fa-solid fa-arrow-right ms-1 small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+    // Live Author Search Filtering
+    const authorSearchInput = document.getElementById('authorSearchInput');
+    if (authorSearchInput) {
+        authorSearchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const items = document.querySelectorAll('.author-item');
+            
+            items.forEach(item => {
+                const name = item.getAttribute('data-name');
+                const genre = item.getAttribute('data-genre');
+                if (name.includes(query) || genre.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+</script>
