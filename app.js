@@ -78,6 +78,24 @@ app.get("/books", wrapAsync(async(req, res) => {
     res.render("books/index.ejs", { allBooks, search, genre });
 }));
 
+// Live Instant API Search Endpoint
+app.get("/api/search", wrapAsync(async (req, res) => {
+    const { q } = req.query;
+    if (!q || q.trim() === "") {
+        return res.json([]);
+    }
+    const books = await Book.find({
+        isHidden: { $ne: true },
+        $or: [
+            { title: { $regex: q, $options: "i" } },
+            { author: { $regex: q, $options: "i" } },
+            { genre: { $regex: q, $options: "i" } }
+        ]
+    }).limit(6).select("title author image price _id genre");
+    res.json(books);
+}));
+
+
 // Privacy & Terms Routes
 app.get("/privacy", (req, res) => {
     res.render("info/privacy.ejs");

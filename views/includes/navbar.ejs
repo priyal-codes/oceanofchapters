@@ -7,17 +7,23 @@
         </a>
 
         <!-- Search Bar (Desktop) -->
-        <form action="/books" method="GET" class="d-none d-md-flex align-items-center flex-grow-1 max-w-md mx-lg-4">
-            <div class="input-group search-input-group">
-                <span class="input-group-text bg-light border-end-0 text-muted ps-3">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </span>
-                <input type="text" name="search" class="form-control bg-light border-start-0 ps-0 shadow-none" 
-                       placeholder="Search books by title, author, or genre..." 
-                       value="<%= typeof search !== 'undefined' ? search : '' %>">
-                <button type="submit" class="btn btn-primary px-3 fw-semibold">Search</button>
-            </div>
-        </form>
+        <div class="search-wrapper d-none d-md-block flex-grow-1 max-w-md mx-lg-4 position-relative">
+            <form action="/books" method="GET" class="align-items-center">
+                <div class="input-group search-input-group">
+                    <span class="input-group-text bg-light border-end-0 text-muted ps-3">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" id="live-search-input" name="search" class="form-control bg-light border-start-0 ps-0 shadow-none" 
+                           placeholder="Search books by title, author, or genre..." 
+                           value="<%= typeof search !== 'undefined' ? search : '' %>"
+                           autocomplete="off">
+                    <button type="submit" class="btn btn-primary px-3 fw-semibold">Search</button>
+                </div>
+            </form>
+            <!-- Instant Live Search Dropdown -->
+            <div id="live-search-dropdown" class="live-search-dropdown shadow-lg d-none"></div>
+        </div>
+
 
         <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
