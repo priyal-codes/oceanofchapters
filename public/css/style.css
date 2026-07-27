@@ -254,17 +254,10 @@ h1 em, h2 em, h3 em, .brand-title em, .text-italic {
 
 
 
-.book-home-card:hover .book-card-hover-actions {
-    opacity: 1 !important;
-}
-
-.book-card-hover-actions {
-    transition: opacity 0.3s ease;
-}
-
 .hover-primary:hover {
     color: #0284c7 !important;
 }
+
 
 /* Quote Section */
 .quote-banner {

@@ -111,28 +111,19 @@
             <% for (let book of featuredBooks) { %>
 
                 <div class="col">
-                    <div class="card h-100 book-home-card border-0 shadow-sm rounded-4 overflow-hidden transition-all">
-                        <div class="position-relative overflow-hidden book-img-container">
-                            <img src="<%= book.image %>" class="card-img-top book-card-img" alt="<%= book.title %>">
-                            <% if (book.genre && book.genre.length > 0) { %>
-                                <span class="badge bg-dark bg-opacity-75 backdrop-blur position-absolute top-0 end-0 m-3 px-2 py-1 rounded-pill small">
-                                    <%= Array.isArray(book.genre) ? book.genre[0] : book.genre %>
-                                </span>
-                            <% } %>
-                            <div class="book-card-hover-actions position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-40 backdrop-blur d-flex align-items-center justify-content-center gap-2 opacity-0">
-                                <a href="/books/<%= book._id %>" class="btn btn-light rounded-pill px-3 py-2 shadow fw-semibold small">
-                                    <i class="fa-solid fa-eye me-1"></i> View
-                                </a>
-                                <form action="/cart/add/<%= book._id %>" method="POST" class="d-inline">
-                                    <button type="submit" class="btn btn-ocean-primary rounded-pill px-3 py-2 shadow fw-semibold small">
-                                        <i class="fa-solid fa-cart-plus me-1"></i> Add
-                                    </button>
-                                </form>
+                    <div class="card h-100 book-home-card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <a href="/books/<%= book._id %>" class="text-decoration-none">
+                            <div class="position-relative overflow-hidden book-img-container">
+                                <img src="<%= book.image %>" class="card-img-top book-card-img" alt="<%= book.title %>">
+                                <% if (book.genre && book.genre.length > 0) { %>
+                                    <span class="badge bg-dark bg-opacity-75 backdrop-blur position-absolute top-0 end-0 m-3 px-2 py-1 rounded-pill small text-white">
+                                        <%= Array.isArray(book.genre) ? book.genre[0] : book.genre %>
+                                    </span>
+                                <% } %>
                             </div>
-
-                        </div>
+                        </a>
                         <div class="card-body p-3 d-flex flex-column">
-                            <small class="text-muted mb-1"><i class="fa-solid fa-user-pen me-1"></i> <%= book.author %></small>
+                            <small class="text-muted mb-1 text-truncate"><i class="fa-solid fa-user-pen me-1"></i> <%= book.author %></small>
                             <h5 class="card-title fw-bold text-dark text-truncate mb-2" title="<%= book.title %>">
                                 <a href="/books/<%= book._id %>" class="text-decoration-none text-dark hover-primary">
                                     <%= book.title %>
@@ -142,12 +133,20 @@
                                 <span class="fs-5 fw-bold text-success">
                                     &#8377;<%= book.price ? book.price.toLocaleString("en-IN") : '299' %>
                                 </span>
-                                <a href="/books/<%= book._id %>" class="btn btn-sm btn-outline-dark rounded-pill px-3">
-                                    Details
-                                </a>
+                                <div class="d-flex align-items-center gap-1">
+                                    <a href="/books/<%= book._id %>" class="btn btn-sm btn-outline-dark rounded-pill px-3">
+                                        Details
+                                    </a>
+                                    <form action="/cart/add/<%= book._id %>" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Add to Cart">
+                                            <i class="fa-solid fa-cart-plus small"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             <% } %>
         </div>
