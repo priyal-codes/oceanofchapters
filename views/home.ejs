@@ -11,13 +11,15 @@
         <div class="row align-items-center gy-4">
             <div class="col-lg-7 text-center text-lg-start">
                 <span class="badge hero-badge rounded-pill px-3 py-2 mb-3 fw-semibold tracking-wide">
-                    <i class="fa-solid fa-sparkles me-1"></i> Welcome to Ocean of Chapters
+                    <i class="fa-solid fa-sparkles me-1"></i> Your Ultimate Bookstore
                 </span>
 
-                
                 <h1 class="hero-title display-3 fw-bold mb-4">
-                    Dive into an <em>Ocean of Chapters</em>
+                    Welcome to <em>Ocean of Chapters</em>
                 </h1>
+
+
+
                 
                 <p class="hero-subtitle lead text-light opacity-90 mb-4 me-lg-4">
                     Discover handpicked romance, gripping thrillers, timeless classics, and BookTok viral sensations. Your next unforgettable story is waiting.
@@ -48,18 +50,54 @@
                 </div>
             </div>
 
-            <div class="col-lg-5 text-center">
-                <div class="hero-image-wrapper position-relative mx-auto">
-                    <div class="hero-image-card shadow-2xl rounded-4 overflow-hidden position-relative">
-                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Ocean of Chapters Library" class="img-fluid hero-img rounded-4">
-                        <div class="hero-image-overlay p-4 text-start text-white">
-                            <span class="badge bg-warning text-dark mb-2 fw-bold">#1 Readers' Haven</span>
-                            <h5 class="fw-bold font-serif mb-1">“Escape into every page.”</h5>
-                            <small class="text-white-50">Curated collections just for you</small>
+            <!-- Hero Right Column: 3D Floating Book Showcase -->
+            <div class="col-lg-5 text-center mt-5 mt-lg-0">
+                <div class="hero-book-stack">
+                    <% if (featuredBooks && featuredBooks.length >= 3) { %>
+                        <div class="hero-book-card hero-book-card-1">
+                            <img src="<%= featuredBooks[0].image %>" alt="<%= featuredBooks[0].title %>">
+                        </div>
+                        <div class="hero-book-card hero-book-card-2">
+                            <img src="<%= featuredBooks[1].image %>" alt="<%= featuredBooks[1].title %>">
+                        </div>
+                        <div class="hero-book-card hero-book-card-3">
+                            <img src="<%= featuredBooks[2].image %>" alt="<%= featuredBooks[2].title %>">
+                        </div>
+                    <% } else { %>
+                        <div class="hero-book-card hero-book-card-1">
+                            <img src="https://m.media-amazon.com/images/I/81s0B6NYXML._SL1500_.jpg" alt="It Ends With Us">
+                        </div>
+                        <div class="hero-book-card hero-book-card-2">
+                            <img src="https://m.media-amazon.com/images/I/8125BDk3lJL._SL1500_.jpg" alt="Does It Hurt">
+                        </div>
+                        <div class="hero-book-card hero-book-card-3">
+                            <img src="https://m.media-amazon.com/images/I/81t3Xj88-fL._SL1500_.jpg" alt="My Fault">
+                        </div>
+                    <% } %>
+
+                    <!-- Floating Glassmorphism Badges -->
+                    <div class="floating-glass-badge position-absolute top-0 start-0 m-2 rounded-4 p-3 text-start d-none d-sm-block">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-fire text-danger fs-5"></i>
+                            <div>
+                                <div class="fw-bold text-dark small">BookTok Bestsellers</div>
+                                <small class="text-muted extra-small">Handpicked & Trending</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="floating-glass-badge position-absolute bottom-0 end-0 m-2 rounded-4 p-3 text-start d-none d-sm-block">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-truck-fast text-success fs-5"></i>
+                            <div>
+                                <div class="fw-bold text-dark small">Express Delivery</div>
+                                <small class="text-muted extra-small">Delivered to your doorstep</small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>

@@ -154,30 +154,82 @@ h1 em, h2 em, h3 em, .brand-title em, .text-italic {
     box-shadow: 0 10px 20px rgba(2, 132, 199, 0.3);
 }
 
-.hero-image-card {
-    border: 4px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    transform: rotate(1deg);
-    transition: transform 0.4s ease;
-}
-
-.hero-image-card:hover {
-    transform: rotate(0deg) scale(1.02);
-}
-
-.hero-img {
-    height: 380px;
+/* 3D Floating Book Showcase */
+.hero-book-stack {
+    position: relative;
+    height: 420px;
     width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-book-card {
+    position: absolute;
+    width: 210px;
+    height: 310px;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-book-card img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.hero-image-overlay {
-    background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.hero-book-card-1 {
+    transform: rotate(-12deg) translate(-50px, -10px);
+    z-index: 1;
 }
+
+.hero-book-card-2 {
+    transform: rotate(10deg) translate(50px, 15px);
+    z-index: 2;
+}
+
+.hero-book-card-3 {
+    transform: rotate(0deg) translate(0, 0);
+    z-index: 3;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    animation: heroFloat 4s ease-in-out infinite;
+}
+
+.hero-book-stack:hover .hero-book-card-1 {
+    transform: rotate(-18deg) translate(-75px, -20px);
+}
+
+.hero-book-stack:hover .hero-book-card-2 {
+    transform: rotate(16deg) translate(75px, 25px);
+}
+
+.hero-book-stack:hover .hero-book-card-3 {
+    transform: rotate(0deg) scale(1.05);
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.floating-glass-badge {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.floating-glass-badge:hover {
+    transform: scale(1.05);
+}
+
 
 /* Filter & Sort Pill Buttons */
 .filter-pill {
