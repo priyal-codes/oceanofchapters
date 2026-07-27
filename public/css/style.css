@@ -400,6 +400,18 @@ h1 em, h2 em, h3 em, .brand-title em, .text-italic {
 }
 
 
+/* Author Cards */
+.author-card {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.author-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Book Search Autocomplete Suggestion Box */
+
 /* Quote Section */
 .quote-banner {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
