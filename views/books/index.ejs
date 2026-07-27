@@ -1,6 +1,8 @@
 <% layout("/layouts/boilerplate") -%>
 <body>
-    <h2>All Books</h2>
+    <div class="container my-5">
+        <h2 class="mb-4 font-serif text-italic">All Books</h2>
+
     <div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-1">
         <% for(let book of allBooks) { %>
             <a href="/books/<%= book._id %>" class="book-link">
@@ -16,6 +18,7 @@
             </div>
         </div>
         </a>
-        <% } %>
     </div>
+</div>
 </body>
+

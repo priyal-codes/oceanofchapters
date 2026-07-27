@@ -1,0 +1,240 @@
+<% layout("/layouts/boilerplate") -%>
+
+<!-- Hero Section -->
+<section class="hero-section text-white py-5 px-3 mb-5 position-relative overflow-hidden">
+    <div class="hero-bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <div class="container position-relative py-5">
+        <div class="row align-items-center gy-4">
+            <div class="col-lg-7 text-center text-lg-start">
+                <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle rounded-pill px-3 py-2 mb-3 fw-semibold tracking-wide">
+                    <i class="fa-solid fa-sparkles me-1"></i> Welcome to Ocean of Chapters
+                </span>
+                
+                <h1 class="hero-title display-3 fw-bold mb-4">
+                    Dive into an <em>Ocean of Chapters</em>
+                </h1>
+                
+                <p class="hero-subtitle lead text-light opacity-90 mb-4 me-lg-4">
+                    Discover handpicked romance, gripping thrillers, timeless classics, and BookTok viral sensations. Your next unforgettable story is waiting.
+                </p>
+
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-3 mb-4">
+                    <a href="/books" class="btn btn-ocean-primary btn-lg rounded-pill px-4 py-3 shadow-lg fw-semibold">
+                        <i class="fa-solid fa-compass me-2"></i> Explore Collection
+                    </a>
+                    <a href="#featured-books" class="btn btn-outline-light btn-lg rounded-pill px-4 py-3 fw-semibold">
+                        <i class="fa-solid fa-fire me-2"></i> Trending Books
+                    </a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-4 pt-3 text-light-50 border-top border-light border-opacity-10">
+                    <div>
+                        <h4 class="fw-bold mb-0 text-white font-serif">500+</h4>
+                        <small class="text-uppercase tracking-wider text-white-50">Curated Titles</small>
+                    </div>
+                    <div class="border-start border-light border-opacity-25 ps-4">
+                        <h4 class="fw-bold mb-0 text-white font-serif">4.9 ★</h4>
+                        <small class="text-uppercase tracking-wider text-white-50">Reader Rating</small>
+                    </div>
+                    <div class="border-start border-light border-opacity-25 ps-4">
+                        <h4 class="fw-bold mb-0 text-white font-serif">Express</h4>
+                        <small class="text-uppercase tracking-wider text-white-50">Doorstep Delivery</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 text-center">
+                <div class="hero-image-wrapper position-relative mx-auto">
+                    <div class="hero-image-card shadow-2xl rounded-4 overflow-hidden position-relative">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Ocean of Chapters Library" class="img-fluid hero-img rounded-4">
+                        <div class="hero-image-overlay p-4 text-start text-white">
+                            <span class="badge bg-warning text-dark mb-2 fw-bold">#1 Readers' Haven</span>
+                            <h5 class="fw-bold font-serif mb-1">“Escape into every page.”</h5>
+                            <small class="text-white-50">Curated collections just for you</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Genre Pills Navigation -->
+<section class="container mb-5">
+    <div class="text-center mb-4">
+        <h3 class="section-title font-serif text-italic">Explore Popular <em>Genres</em></h3>
+        <p class="text-muted">Find stories tailored to your favorite reading mood</p>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a href="/books" class="genre-pill">
+            <i class="fa-solid fa-heart me-2 text-danger"></i> Romance
+        </a>
+        <a href="/books" class="genre-pill">
+            <i class="fa-solid fa-moon me-2 text-primary"></i> Dark Romance
+        </a>
+        <a href="/books" class="genre-pill">
+            <i class="fa-solid fa-masks-theater me-2 text-warning"></i> Drama & Suspense
+        </a>
+        <a href="/books" class="genre-pill">
+            <i class="fa-solid fa-wand-magic-sparkles me-2 text-info"></i> Fantasy & Magic
+        </a>
+        <a href="/books" class="genre-pill">
+            <i class="fa-solid fa-skull me-2 text-dark"></i> Thriller
+        </a>
+        <a href="/books" class="genre-pill">
+            <i class="fa-solid fa-feather me-2 text-success"></i> Classic Fiction
+        </a>
+    </div>
+</section>
+
+<!-- Featured Books Showcase Section -->
+<section id="featured-books" class="container py-4 mb-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 pb-2 border-bottom">
+        <div>
+            <span class="text-primary text-uppercase tracking-wider fw-bold small">Handpicked Selection</span>
+            <h2 class="section-heading font-serif display-6 mb-0">Featured <em>Chapters</em></h2>
+        </div>
+        <a href="/books" class="btn btn-link text-decoration-none fw-semibold p-0 mt-2 mt-md-0">
+            View All Books <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+    </div>
+
+    <% if (featuredBooks && featuredBooks.length > 0) { %>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <% for (let book of featuredBooks) { %>
+                <div class="col">
+                    <div class="card h-100 book-home-card border-0 shadow-sm rounded-4 overflow-hidden transition-all">
+                        <div class="position-relative overflow-hidden book-img-container">
+                            <img src="<%= book.image %>" class="card-img-top book-card-img" alt="<%= book.title %>">
+                            <% if (book.genre && book.genre.length > 0) { %>
+                                <span class="badge bg-dark bg-opacity-75 backdrop-blur position-absolute top-0 end-0 m-3 px-2 py-1 rounded-pill small">
+                                    <%= Array.isArray(book.genre) ? book.genre[0] : book.genre %>
+                                </span>
+                            <% } %>
+                            <div class="book-card-hover-actions position-absolute inset-0 bg-dark bg-opacity-40 d-flex align-items-center justify-content-center gap-2 opacity-0">
+                                <a href="/books/<%= book._id %>" class="btn btn-light rounded-circle shadow-sm">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <form action="/cart/add/<%= book._id %>" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-primary rounded-circle shadow-sm">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card-body p-3 d-flex flex-column">
+                            <small class="text-muted mb-1"><i class="fa-solid fa-user-pen me-1"></i> <%= book.author %></small>
+                            <h5 class="card-title fw-bold text-dark text-truncate mb-2" title="<%= book.title %>">
+                                <a href="/books/<%= book._id %>" class="text-decoration-none text-dark hover-primary">
+                                    <%= book.title %>
+                                </a>
+                            </h5>
+                            <div class="mt-auto d-flex justify-content-between align-items-center pt-2 border-top">
+                                <span class="fs-5 fw-bold text-success">
+                                    &#8377;<%= book.price ? book.price.toLocaleString("en-IN") : '299' %>
+                                </span>
+                                <a href="/books/<%= book._id %>" class="btn btn-sm btn-outline-dark rounded-pill px-3">
+                                    Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    <% } else { %>
+        <div class="alert alert-light text-center py-5 rounded-4 shadow-sm">
+            <i class="fa-solid fa-book-open fs-1 text-muted mb-3 d-block"></i>
+            <h5>No books available right now</h5>
+            <p class="text-muted">Initialize the database to display books on the home page.</p>
+            <a href="/books" class="btn btn-primary rounded-pill px-4">Browse Books</a>
+        </div>
+    <% } %>
+</section>
+
+<!-- Literary Quote Section -->
+<section class="quote-banner py-5 my-5 text-center text-white position-relative">
+    <div class="container position-relative py-4">
+        <i class="fa-solid fa-quote-left display-3 text-white-50 opacity-25 mb-3 d-block"></i>
+        <h2 class="quote-text font-serif display-6 fst-italic mb-3 max-w-2xl mx-auto">
+            “A reader lives a thousand lives before he dies... The man who never reads lives only one.”
+        </h2>
+        <p class="quote-author text-uppercase tracking-widest text-light-50 fw-semibold">
+            — George R.R. Martin
+        </p>
+    </div>
+</section>
+
+<!-- Why Ocean of Chapters Section -->
+<section class="container py-4 mb-5">
+    <div class="text-center mb-5">
+        <span class="text-primary text-uppercase tracking-wider fw-bold small">The Reader Experience</span>
+        <h2 class="font-serif display-6 mb-2">Why Readers Choose <em>Ocean of Chapters</em></h2>
+        <p class="text-muted">Crafted with love for every bookworm and literature enthusiast</p>
+    </div>
+
+    <div class="row g-4 text-center">
+        <div class="col-md-3">
+            <div class="feature-card p-4 rounded-4 bg-light h-100 transition-all border">
+                <div class="feature-icon bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="fa-solid fa-truck-fast fs-4"></i>
+                </div>
+                <h5 class="fw-bold font-serif mb-2">Express Shipping</h5>
+                <p class="text-muted small mb-0">Fast, reliable delivery straight to your reading room.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="feature-card p-4 rounded-4 bg-light h-100 transition-all border">
+                <div class="feature-icon bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="fa-solid fa-certificate fs-4"></i>
+                </div>
+                <h5 class="fw-bold font-serif mb-2">100% Authentic</h5>
+                <p class="text-muted small mb-0">Original paperbacks & special edition prints guaranteed.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="feature-card p-4 rounded-4 bg-light h-100 transition-all border">
+                <div class="feature-icon bg-warning bg-opacity-10 text-warning rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="fa-solid fa-bookmark fs-4"></i>
+                </div>
+                <h5 class="fw-bold font-serif mb-2">Collector Gift</h5>
+                <p class="text-muted small mb-0">Custom bookmark included with every single order.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="feature-card p-4 rounded-4 bg-light h-100 transition-all border">
+                <div class="feature-icon bg-info bg-opacity-10 text-info rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="fa-solid fa-comments fs-4"></i>
+                </div>
+                <h5 class="fw-bold font-serif mb-2">Verified Reviews</h5>
+                <p class="text-muted small mb-0">Read genuine ratings from fellow book enthusiasts.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="container mb-5">
+    <div class="cta-card bg-dark text-white rounded-5 p-5 position-relative overflow-hidden text-center text-md-start">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <span class="badge bg-primary px-3 py-2 rounded-pill mb-3">Join the Community</span>
+                <h2 class="font-serif display-5 mb-3 fw-bold">Ready to Start Your Next <em>Chapter</em>?</h2>
+                <p class="text-light opacity-75 mb-0 lead">Browse our full library of stories and build your dream bookshelf today.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-4 mt-md-0">
+                <a href="/books" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold text-dark shadow">
+                    Explore Library <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

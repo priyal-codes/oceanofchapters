@@ -48,9 +48,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-    res.send("Hi, I am root");
-});
+// Home Route
+app.get("/", wrapAsync(async (req, res) => {
+    const featuredBooks = await Book.find({ isHidden: { $ne: true } }).limit(8);
+    res.render("home.ejs", { featuredBooks });
+}));
+
 
 //Index Route
 app.get("/books", wrapAsync(async(req, res) => {
