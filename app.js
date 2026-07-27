@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 
 // Home Route
 app.get("/", wrapAsync(async (req, res) => {
-    const featuredBooks = await Book.find({ isHidden: { $ne: true } }).limit(8);
+    const featuredBooks = await Book.find({ isHidden: { $ne: true } }).limit(10);
     res.render("home.ejs", { featuredBooks });
 }));
 

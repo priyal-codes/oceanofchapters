@@ -49,9 +49,32 @@ h1 em, h2 em, h3 em, .brand-title em, .text-italic {
 /* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #091e36 0%, #102a45 40%, #1e3e62 100%);
-    border-radius: 0 0 2.5rem 2.5rem;
-    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+    border-radius: 0 !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
 }
+
+.hero-badge {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(6px);
+}
+
+.btn-ocean-primary {
+    background-color: #38bdf8 !important;
+    color: #0f172a !important;
+    border: none !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-ocean-primary:hover {
+    background-color: #7dd3fc !important;
+    color: #0f172a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3) !important;
+}
+
 
 .hero-title {
     font-family: 'Playfair Display', serif;
@@ -130,31 +153,51 @@ h1 em, h2 em, h3 em, .brand-title em, .text-italic {
 }
 
 /* Home Book Cards */
+.card-img-top {
+    border-radius: 1rem 1rem 0 0 !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
 .book-home-card {
     background-color: #ffffff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 1.25rem !important;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .book-home-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.12) !important;
+    border-color: #cbd5e1 !important;
 }
 
 .book-img-container {
     height: 280px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
     background-color: #f1f5f9;
+    border-radius: 1.25rem 1.25rem 0 0;
 }
+
 
 .book-card-img {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    object-position: center top;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .book-home-card:hover .book-card-img {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
+
+
 
 .book-home-card:hover .book-card-hover-actions {
     opacity: 1 !important;
@@ -171,9 +214,10 @@ h1 em, h2 em, h3 em, .brand-title em, .text-italic {
 /* Quote Section */
 .quote-banner {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    border-radius: 2rem;
+    border-radius: 0 !important;
     overflow: hidden;
 }
+
 
 .quote-text {
     color: #f8fafc;

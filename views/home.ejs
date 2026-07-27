@@ -10,9 +10,10 @@
     <div class="container position-relative py-5">
         <div class="row align-items-center gy-4">
             <div class="col-lg-7 text-center text-lg-start">
-                <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle rounded-pill px-3 py-2 mb-3 fw-semibold tracking-wide">
+                <span class="badge hero-badge rounded-pill px-3 py-2 mb-3 fw-semibold tracking-wide">
                     <i class="fa-solid fa-sparkles me-1"></i> Welcome to Ocean of Chapters
                 </span>
+
                 
                 <h1 class="hero-title display-3 fw-bold mb-4">
                     Dive into an <em>Ocean of Chapters</em>
@@ -105,8 +106,9 @@
     </div>
 
     <% if (featuredBooks && featuredBooks.length > 0) { %>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-5 g-3">
             <% for (let book of featuredBooks) { %>
+
                 <div class="col">
                     <div class="card h-100 book-home-card border-0 shadow-sm rounded-4 overflow-hidden transition-all">
                         <div class="position-relative overflow-hidden book-img-container">
@@ -116,16 +118,17 @@
                                     <%= Array.isArray(book.genre) ? book.genre[0] : book.genre %>
                                 </span>
                             <% } %>
-                            <div class="book-card-hover-actions position-absolute inset-0 bg-dark bg-opacity-40 d-flex align-items-center justify-content-center gap-2 opacity-0">
-                                <a href="/books/<%= book._id %>" class="btn btn-light rounded-circle shadow-sm">
-                                    <i class="fa-solid fa-eye"></i>
+                            <div class="book-card-hover-actions position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-40 backdrop-blur d-flex align-items-center justify-content-center gap-2 opacity-0">
+                                <a href="/books/<%= book._id %>" class="btn btn-light rounded-pill px-3 py-2 shadow fw-semibold small">
+                                    <i class="fa-solid fa-eye me-1"></i> View
                                 </a>
                                 <form action="/cart/add/<%= book._id %>" method="POST" class="d-inline">
-                                    <button type="submit" class="btn btn-primary rounded-circle shadow-sm">
-                                        <i class="fa-solid fa-cart-plus"></i>
+                                    <button type="submit" class="btn btn-ocean-primary rounded-pill px-3 py-2 shadow fw-semibold small">
+                                        <i class="fa-solid fa-cart-plus me-1"></i> Add
                                     </button>
                                 </form>
                             </div>
+
                         </div>
                         <div class="card-body p-3 d-flex flex-column">
                             <small class="text-muted mb-1"><i class="fa-solid fa-user-pen me-1"></i> <%= book.author %></small>
