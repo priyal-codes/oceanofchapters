@@ -45,11 +45,17 @@ app.use((req, res, next) => {
   if (!req.session.cart) {
     req.session.cart = { items: [] };
   }
+  if (!req.session.wishlist) {
+    req.session.wishlist = { items: [] };
+  }
   const totalCartCount = req.session.cart.items.reduce((sum, item) => sum + item.quantity, 0);
   res.locals.cartCount = totalCartCount;
+  res.locals.wishlistCount = req.session.wishlist.items.length;
+  res.locals.wishlistItems = req.session.wishlist.items.map(id => id.toString());
   res.locals.currentPath = req.path;
   next();
 });
+
 
 // Home Route
 app.get("/", wrapAsync(async (req, res) => {
@@ -129,6 +135,31 @@ app.get("/books/:id", wrapAsync(async (req, res) => {
     res.render("books/show.ejs", { book });
 }));
 
+//Wishlist Page Route
+app.get("/wishlist", wrapAsync(async (req, res) => {
+  const wishlist = req.session.wishlist || { items: [] };
+  const books = await Book.find({ _id: { $in: wishlist.items } });
+  res.render("wishlist/index", { books });
+}));
+
+//Toggle Wishlist Item Route
+app.post("/wishlist/toggle/:id", wrapAsync(async (req, res) => {
+  const bookId = req.params.id;
+  if (!req.session.wishlist) {
+    req.session.wishlist = { items: [] };
+  }
+  const index = req.session.wishlist.items.findIndex(id => id.toString() === bookId);
+  if (index > -1) {
+    req.session.wishlist.items.splice(index, 1);
+  } else {
+    req.session.wishlist.items.push(bookId);
+  }
+  req.session.save(() => {
+    const backUrl = req.get("Referrer") || "/wishlist";
+    res.redirect(backUrl);
+  });
+}));
+
 //Cart Route
 app.get("/cart", wrapAsync(async (req, res) => {
   const cart = req.session.cart;
@@ -145,7 +176,6 @@ app.get("/cart", wrapAsync(async (req, res) => {
   }
   res.render("cart/index", { cart: { items: populatedItems } });
 }));
-
 
 //Add Cart Route (Redirects back to Referrer)
 app.post("/cart/add/:id", wrapAsync(async (req, res) => {
@@ -190,6 +220,8 @@ app.post("/checkout", wrapAsync(async (req, res) => {
   req.session.cart = { items: [] };
   res.render("cart/success.ejs", { orderId: "OOC-" + Math.floor(100000 + Math.random() * 900000) });
 }));
+
+
 
 
 //Clear Cart

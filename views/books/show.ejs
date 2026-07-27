@@ -42,16 +42,22 @@
                     <%= book.description %>
                 </p>
 
+                <% const isWishlisted = typeof wishlistItems !== 'undefined' && wishlistItems.includes(book._id.toString()); %>
                 <div class="d-flex flex-wrap gap-3 align-items-center pt-2">
                     <form action="/cart/add/<%= book._id %>" method="POST" class="d-inline">
                         <button type="submit" class="btn btn-ocean-primary btn-lg rounded-pill px-5 py-3 shadow-lg fw-bold">
                             <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
                         </button>
                     </form>
-                    <a href="/cart" class="btn btn-outline-dark btn-lg rounded-pill px-4 py-3 fw-semibold">
-                        View Cart <i class="fa-solid fa-arrow-right ms-1"></i>
-                    </a>
+
+                    <form action="/wishlist/toggle/<%= book._id %>" method="POST" class="d-inline">
+                        <button type="submit" class="btn <%= isWishlisted ? 'btn-danger text-white' : 'btn-outline-danger' %> btn-lg rounded-pill px-4 py-3 fw-semibold">
+                            <i class="<%= isWishlisted ? 'fa-solid fa-heart' : 'fa-regular fa-heart' %> me-2"></i>
+                            <%= isWishlisted ? 'Saved in Wishlist' : 'Add to Wishlist' %>
+                        </button>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>

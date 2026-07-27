@@ -41,6 +41,14 @@
             <div class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
                 <a class="nav-link fw-medium <%= (typeof currentPath !== 'undefined' && currentPath === '/') ? 'active-nav' : '' %>" href="/">Home</a>
                 <a class="nav-link fw-medium <%= (typeof currentPath !== 'undefined' && currentPath === '/books') ? 'active-nav' : '' %>" href="/books">Explore All Books</a>
+                <a class="nav-link fw-medium position-relative d-inline-flex align-items-center gap-1 <%= (typeof currentPath !== 'undefined' && currentPath === '/wishlist') ? 'active-nav' : '' %>" href="/wishlist">
+                    <i class="fa-solid fa-heart text-danger me-1"></i>
+                    <span>Wishlist</span>
+                    <% if (typeof wishlistCount !== 'undefined' && wishlistCount > 0) { %>
+                        <span class="badge bg-danger rounded-circle px-2 py-1 small ms-1"><%= wishlistCount %></span>
+                    <% } %>
+                </a>
+
                 
                 <a class="btn btn-outline-dark rounded-pill px-4 ms-lg-2 mt-2 mt-lg-0 position-relative d-inline-flex align-items-center gap-2" href="/cart">
                     <i class="fa-solid fa-bag-shopping"></i>
@@ -49,6 +57,7 @@
                         <span class="badge bg-primary rounded-circle px-2 py-1 small"><%= cartCount %></span>
                     <% } %>
                 </a>
+
             </div>
         </div>
     </div>
