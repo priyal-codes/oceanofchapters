@@ -1,92 +1,168 @@
 <% layout("/layouts/boilerplate") -%>
 
-<div class="container my-5">
-    <!-- Image Section -->
-    <div class="row align-items-start mb-5">
-        <div class="col-md-4 text-center">
-            <img src="<%= book.image %>" class="img-fluid book-hero-img" alt="book image">
+<div class="container my-5 max-w-5xl mx-auto">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Home</a></li>
+            <li class="breadcrumb-item"><a href="/books" class="text-decoration-none text-muted">Books</a></li>
+            <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page"><%= book.title %></li>
+        </ol>
+    </nav>
+
+    <!-- Book Hero Section -->
+    <div class="card border rounded-4 p-4 p-md-5 shadow-sm bg-white mb-5">
+        <div class="row align-items-center gy-4">
+            <!-- Book Cover Image -->
+            <div class="col-md-5 text-center">
+                <div class="p-3 bg-light rounded-4 border d-inline-block position-relative">
+                    <img src="<%= book.image %>" class="img-fluid rounded-3" alt="<%= book.title %>" style="max-height: 420px; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.18));">
+                </div>
+            </div>
+
+            <!-- Book Info & Add to Cart -->
+            <div class="col-md-7">
+                <% if (book.genre && book.genre.length > 0) { %>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 mb-3 fw-semibold">
+                        <i class="fa-solid fa-bookmark me-1"></i> <%= Array.isArray(book.genre) ? book.genre.join(", ") : book.genre %>
+                    </span>
+                <% } %>
+
+                <h1 class="font-serif display-5 fw-bold mb-2"><%= book.title %></h1>
+                <h5 class="text-muted mb-3"><i class="fa-solid fa-user-pen me-2"></i> by <strong><%= book.author %></strong></h5>
+                
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <h3 class="text-success fw-bold mb-0">
+                        &#8377;<%= book.price ? book.price.toLocaleString("en-IN") : '299' %>
+                    </h3>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1">In Stock & Ready to Ship</span>
+                </div>
+
+                <p class="book-description lead text-secondary mb-4 lh-lg" style="font-size: 1.05rem;">
+                    <%= book.description %>
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 align-items-center pt-2">
+                    <form action="/cart/add/<%= book._id %>" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-ocean-primary btn-lg rounded-pill px-5 py-3 shadow-lg fw-bold">
+                            <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
+                        </button>
+                    </form>
+                    <a href="/cart" class="btn btn-outline-dark btn-lg rounded-pill px-4 py-3 fw-semibold">
+                        View Cart <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <!-- Book Info -->
-         <div class="col-md-8">
-            <h1 class="mb-2"><%= book.title %></h1>
-            <h5 class="text-muted mb-3">by <%= book.author %></h5>
-            <h4 class="text-success mb-3">
-                &#8377;<%= book.price.toLocaleString("en-IN") %>
-            </h4>
-            <p class="book-description mb-4">
-                <%= book.description %>
-            </p>
-            <form action="/cart/add/<%= book._id %>" method="POST">
-                <button class="btn btn-lg btn-primary px-5">
-                    Add to Cart
+    </div>
+
+    <!-- Metadata Grid & Author Section -->
+    <div class="row g-4 mb-5">
+        <!-- Book Details Metadata -->
+        <div class="col-md-6">
+            <div class="card border rounded-4 p-4 shadow-sm bg-white h-100">
+                <h4 class="font-serif fw-bold mb-3 border-bottom pb-2">Specification & <em>Details</em></h4>
+                <ul class="list-unstyled mb-0 d-flex flex-column gap-2 text-secondary">
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-semibold text-dark"><i class="fa-solid fa-book me-2 text-primary"></i> Genre:</span>
+                        <span><%= Array.isArray(book.genre) ? book.genre.join(", ") : book.genre %></span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-semibold text-dark"><i class="fa-solid fa-file-lines me-2 text-primary"></i> Pages:</span>
+                        <span><%= book.pages || 'N/A' %> pages</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="fw-semibold text-dark"><i class="fa-solid fa-earth-americas me-2 text-primary"></i> Origin:</span>
+                        <span><%= book.country || 'International' %></span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2">
+                        <span class="fw-semibold text-dark"><i class="fa-solid fa-calendar-days me-2 text-primary"></i> Published:</span>
+                        <span>
+                            <%= book.releasedate ? new Date(book.releasedate).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : 'N/A' %>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Author Biography Card -->
+        <div class="col-md-6">
+            <div class="card border rounded-4 p-4 shadow-sm bg-white h-100">
+                <h4 class="font-serif fw-bold mb-3 border-bottom pb-2">About the <em>Author</em></h4>
+                <div class="d-flex align-items-start gap-3">
+                    <img src="<%= book.authorImage || 'https://i.pinimg.com/736x/8a/f5/75/8af575926cd462281e58589821ddf6c9.jpg' %>"
+                         class="rounded-circle shadow-sm flex-shrink-0" alt="<%= book.author %>" style="width: 75px; height: 75px; object-fit: cover;">
+                    <div>
+                        <h5 class="fw-bold mb-1"><%= book.author %></h5>
+                        <p class="text-secondary small mb-0 lh-base">
+                            <%= book.authorBio || "A celebrated author whose storytelling captures readers around the world with compelling characters and vivid narrative worlds." %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="card border rounded-4 p-4 p-md-5 shadow-sm bg-white mb-5">
+        <h3 class="font-serif fw-bold mb-4 border-bottom pb-3">Reader <em>Reviews</em></h3>
+
+        <!-- Leave a Review Form -->
+        <div class="bg-light p-4 rounded-4 border mb-5">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-pen-to-square me-2 text-primary"></i> Leave Your Review</h5>
+            <form action="/books/<%= book._id %>/reviews" method="POST" novalidate class="needs-validation">
+                <div class="mb-3">
+                    <label for="rating" class="form-label fw-semibold">Rating (1 to 5 Stars)</label>
+                    <input type="range" min="1" max="5" value="5" name="review[rating]" class="form-range" id="rating" oninput="this.nextElementSibling.value = this.value + ' ★'">
+                    <output class="fw-bold text-warning ms-2">5 ★</output>
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label fw-semibold">Your Review Comment</label>
+                    <textarea name="review[comment]" id="comment" rows="3" class="form-control rounded-3 shadow-none" placeholder="What did you think of this book?" required></textarea>
+                    <div class="invalid-feedback">Please enter a short comment for your review.</div>
+                </div>
+                <button type="submit" class="btn btn-dark rounded-pill px-4 fw-semibold">
+                    Submit Review
                 </button>
             </form>
-         </div>
-    </div>
-    <!-- Details Section -->
-     <div class="row mb-5">
-        <div class="col ms-5">
-            <h4>Book Details</h4>
-            <ul class="list-unstyled book-meta">
-                <li><strong>Genre:</strong><%= book.genre %></li>
-                <li><strong>Pages:</strong> <%= book.pages %></li>
-                <li><strong>Country:</strong> <%= book.country %></li>
-                <li><strong>Release Date:</strong>
-                <%= book.releasedate.toLocaleDateString("en-IN", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric"
-                }) %>
-                </li>
-            </ul>
         </div>
-     </div>
-     <!-- Author Section -->
-      <div class="row align-items-center author-section">
-        <div class="col-md-2 text-center">
-        <img src="<%= book.authorImage %>"
-           class="author-img"
-           alt="author">
-    </div>
-    <div class="col-md-10">
-      <h5><%= book.author %></h5>
-      <p class="text-muted">
-        <%= book.authorBio || "Author bio coming soon." %>
-      </p>
-    </div>
-    </div>
-    <hr>
-    <div class="col-13">
-        <h4>Leave a Review</h4>
-        <form action="/books/<%= book._id %>/reviews" method="POST" novalidate class="needs-validation">
-            <div class="mb-3 mt-3">
-                <label for="rating" class="form-label">Rating</label>
-                <input type="range" min="1" max="5" name="review[rating]" class="form-range">
+
+        <!-- All Customer Reviews -->
+        <h5 class="fw-bold mb-3">Verified Community Feedback (<%= book.reviews ? book.reviews.length : 0 %>)</h5>
+        <% if (book.reviews && book.reviews.length > 0) { %>
+            <div class="d-flex flex-column gap-3">
+                <% for (let review of book.reviews) { %>
+                    <div class="card border rounded-3 p-3 bg-white shadow-sm">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
+                                    <i class="fa-solid fa-user small"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-dark">Verified Reader</h6>
+                                    <div class="text-warning small">
+                                        <% for (let i = 1; i <= 5; i++) { %>
+                                            <% if (i <= review.rating) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                            <% } else { %>
+                                                <i class="fa-regular fa-star text-muted"></i>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <form method="POST" action="/books/<%- book._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                <button type="submit" class="btn btn-sm btn-link text-danger text-decoration-none p-0">
+                                    <i class="fa-solid fa-trash-can me-1"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                        <p class="text-secondary mb-0 ps-5 small"><%= review.comment %></p>
+                    </div>
+                <% } %>
             </div>
-            <div class="mb-3 mt-3">
-                <label for="comment" class="form-label">Comment</label>
-                <textarea name="review[comment]" id="comment" cols="30" rows="1" class="form-control" required></textarea>
-                <div class="invalid-feedback">Please add some comments for review</div>
-            </div>
-            <button class="btn btn-outline-dark">Submit</button>
-        </form>
-        <hr>
-        <h4>All Reviews</h4>
-        <ul>
-        <% for(review of book.reviews) { %>
-            <div class="review-card">
-            <div class="review-card-body">
-                <h5 class="review-title">Jane Doe</h5>
-                <p class="review-text"><%= review.comment %></p>
-                <p class="review-text"><%= review.rating %> stars</p>
-                <form class="mb-3" method="POST" action="/books/<%- book._id %>/reviews/<%= review._id %>?_method=DELETE">
-                <button class="btn btn-sm btn-dark">Delete</button>
-                </form>
-            </div>
-            </div>
-            <% } %>    
-        </ul>
+        <% } else { %>
+            <p class="text-muted fst-italic py-3">No reviews yet. Be the first reader to leave a review for this book!</p>
+        <% } %>
     </div>
 </div>
-
-    
