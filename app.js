@@ -45,6 +45,9 @@ app.use((req, res, next) => {
   if (!req.session.cart) {
     req.session.cart = { items: [] };
   }
+  const totalCartCount = req.session.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  res.locals.cartCount = totalCartCount;
+  res.locals.currentPath = req.path;
   next();
 });
 
@@ -54,12 +57,36 @@ app.get("/", wrapAsync(async (req, res) => {
     res.render("home.ejs", { featuredBooks });
 }));
 
-
-//Index Route
+// Index / Search / Filter Route
 app.get("/books", wrapAsync(async(req, res) => {
-    const allBooks = await Book.find({ isHidden: { $ne: true } });
-    res.render("books/index.ejs", {allBooks});
+    let query = { isHidden: { $ne: true } };
+    const { search, genre } = req.query;
+
+    if (search) {
+        query.$or = [
+            { title: { $regex: search, $options: "i" } },
+            { author: { $regex: search, $options: "i" } },
+            { genre: { $regex: search, $options: "i" } }
+        ];
+    }
+
+    if (genre) {
+        query.genre = { $regex: genre, $options: "i" };
+    }
+
+    const allBooks = await Book.find(query);
+    res.render("books/index.ejs", { allBooks, search, genre });
 }));
+
+// Privacy & Terms Routes
+app.get("/privacy", (req, res) => {
+    res.render("info/privacy.ejs");
+});
+
+app.get("/terms", (req, res) => {
+    res.render("info/terms.ejs");
+});
+
 
 //Show Route
 app.get("/books/:id", wrapAsync(async (req, res) => {

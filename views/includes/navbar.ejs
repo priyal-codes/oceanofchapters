@@ -1,20 +1,49 @@
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top shadow-sm py-3">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top shadow-sm py-2">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <!-- Brand Logo & Title -->
+        <a class="navbar-brand d-flex align-items-center gap-2 me-lg-4" href="/">
             <i class="fa-solid fa-book-open text-primary fs-3"></i>
             <span class="brand-title">Ocean of <em>Chapters</em></span>
         </a>
+
+        <!-- Search Bar (Desktop) -->
+        <form action="/books" method="GET" class="d-none d-md-flex align-items-center flex-grow-1 max-w-md mx-lg-4">
+            <div class="input-group search-input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted ps-3">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" name="search" class="form-control bg-light border-start-0 ps-0 shadow-none" 
+                       placeholder="Search books by title, author, or genre..." 
+                       value="<%= typeof search !== 'undefined' ? search : '' %>">
+                <button type="submit" class="btn btn-primary px-3 fw-semibold">Search</button>
+            </div>
+        </form>
+
         <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ms-auto align-items-lg-center gap-lg-3 mt-3 mt-lg-0">
-                <a class="nav-link fw-medium" href="/">Home</a>
-                <a class="nav-link fw-medium" href="/books">Explore All Books</a>
-                <a class="btn btn-outline-dark rounded-pill px-4 ms-lg-2 mt-2 mt-lg-0" href="/cart">
-                    <i class="fa-solid fa-bag-shopping me-1"></i> Your Cart
+            <!-- Search Bar (Mobile Collapse) -->
+            <form action="/books" method="GET" class="d-md-none my-3">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control shadow-none" placeholder="Search books...">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
+
+            <div class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                <a class="nav-link fw-medium <%= (typeof currentPath !== 'undefined' && currentPath === '/') ? 'active-nav' : '' %>" href="/">Home</a>
+                <a class="nav-link fw-medium <%= (typeof currentPath !== 'undefined' && currentPath === '/books') ? 'active-nav' : '' %>" href="/books">Explore All Books</a>
+                
+                <a class="btn btn-outline-dark rounded-pill px-4 ms-lg-2 mt-2 mt-lg-0 position-relative d-inline-flex align-items-center gap-2" href="/cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Your Cart</span>
+                    <% if (typeof cartCount !== 'undefined' && cartCount > 0) { %>
+                        <span class="badge bg-primary rounded-circle px-2 py-1 small"><%= cartCount %></span>
+                    <% } %>
                 </a>
             </div>
         </div>
     </div>
-</nav>
+</nav>
