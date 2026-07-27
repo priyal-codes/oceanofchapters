@@ -54,42 +54,84 @@
                     %>
                     
                     <a href="<%= buildUrl({ minPrice: '', maxPrice: '' }) %>" 
-                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= isAllPrice ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       class="btn btn-sm filter-pill rounded-pill px-3 py-2 <%= isAllPrice ? 'active' : '' %>">
                        All Prices
                     </a>
 
                     <a href="<%= buildUrl({ minPrice: '', maxPrice: '300' }) %>" 
-                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= (curMax == '300' && !curMin) ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       class="btn btn-sm filter-pill rounded-pill px-3 py-2 <%= (curMax == '300' && !curMin) ? 'active' : '' %>">
                        Under &#8377;300
                     </a>
 
                     <a href="<%= buildUrl({ minPrice: '300', maxPrice: '500' }) %>" 
-                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= (curMin == '300' && curMax == '500') ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       class="btn btn-sm filter-pill rounded-pill px-3 py-2 <%= (curMin == '300' && curMax == '500') ? 'active' : '' %>">
                        &#8377;300 - &#8377;500
                     </a>
 
                     <a href="<%= buildUrl({ minPrice: '500', maxPrice: '' }) %>" 
-                       class="btn btn-sm rounded-pill px-3 py-2 fw-medium transition-all <%= (curMin == '500' && !curMax) ? 'btn-dark shadow-sm' : 'btn-outline-secondary bg-white' %>">
+                       class="btn btn-sm filter-pill rounded-pill px-3 py-2 <%= (curMin == '500' && !curMax) ? 'active' : '' %>">
                        Over &#8377;500
                     </a>
+
                 </div>
             </div>
 
-            <!-- Sort By Select Dropdown -->
+            <!-- Custom Floating Sort Dropdown -->
             <div class="col-lg-4 text-lg-end">
-                <div class="d-inline-flex align-items-center justify-content-lg-end gap-2 w-100 w-lg-auto">
-                    <label for="catalog-sort-select" class="fw-bold small text-dark text-uppercase tracking-wider mb-0 flex-shrink-0 d-flex align-items-center gap-1">
-                        <i class="fa-solid fa-arrow-down-wide-short text-primary"></i> Sort By:
-                    </label>
-                    <select id="catalog-sort-select" class="form-select form-select-sm rounded-pill border-secondary shadow-none fw-medium py-2 px-3 bg-white" onchange="handleSortChange(this.value)">
-                        <option value="" <%= (typeof sort === 'undefined' || !sort) ? 'selected' : '' %>>Featured / Recommended</option>
-                        <option value="price_asc" <%= (typeof sort !== 'undefined' && sort === 'price_asc') ? 'selected' : '' %>>Price: Low to High</option>
-                        <option value="price_desc" <%= (typeof sort !== 'undefined' && sort === 'price_desc') ? 'selected' : '' %>>Price: High to Low</option>
-                        <option value="title_asc" <%= (typeof sort !== 'undefined' && sort === 'title_asc') ? 'selected' : '' %>>Title: A to Z</option>
-                        <option value="newest" <%= (typeof sort !== 'undefined' && sort === 'newest') ? 'selected' : '' %>>Newest Arrivals</option>
-                    </select>
+                <div class="d-inline-flex align-items-center justify-content-lg-end gap-2 position-relative">
+                    <span class="fw-bold small text-dark text-uppercase tracking-wider me-1">
+                        <i class="fa-solid fa-arrow-down-wide-short text-primary me-1"></i> Sort By:
+                    </span>
+                    
+                    <% 
+                        let currentSortLabel = "Featured / Recommended";
+                        let currentSortIcon = "fa-star text-warning";
+                        if (typeof sort !== 'undefined') {
+                            if (sort === 'price_asc') { currentSortLabel = "Price: Low to High"; currentSortIcon = "fa-arrow-trend-up text-success"; }
+                            else if (sort === 'price_desc') { currentSortLabel = "Price: High to Low"; currentSortIcon = "fa-arrow-trend-down text-danger"; }
+                            else if (sort === 'title_asc') { currentSortLabel = "Title: A to Z"; currentSortIcon = "fa-arrow-down-a-z text-info"; }
+                            else if (sort === 'newest') { currentSortLabel = "Newest Arrivals"; currentSortIcon = "fa-sparkles text-primary"; }
+                        }
+                    %>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle-custom rounded-pill px-3 py-2 fw-semibold d-flex align-items-center gap-2 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid <%= currentSortIcon %>"></i>
+                            <span><%= currentSortLabel %></span>
+                            <i class="fa-solid fa-chevron-down ms-1 small"></i>
+                        </button>
+
+
+                        <ul class="dropdown-menu dropdown-menu-end rounded-4 shadow-lg border-0 p-2 mt-2 custom-sort-menu">
+                            <li>
+                                <a class="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-2 <%= (typeof sort === 'undefined' || !sort) ? 'active fw-bold' : '' %>" href="<%= buildUrl({ sort: '' }) %>">
+                                    <i class="fa-solid fa-star text-warning"></i> Featured / Recommended
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-2 <%= (typeof sort !== 'undefined' && sort === 'price_asc') ? 'active fw-bold' : '' %>" href="<%= buildUrl({ sort: 'price_asc' }) %>">
+                                    <i class="fa-solid fa-arrow-trend-up text-success"></i> Price: Low to High
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-2 <%= (typeof sort !== 'undefined' && sort === 'price_desc') ? 'active fw-bold' : '' %>" href="<%= buildUrl({ sort: 'price_desc' }) %>">
+                                    <i class="fa-solid fa-arrow-trend-down text-danger"></i> Price: High to Low
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-2 <%= (typeof sort !== 'undefined' && sort === 'title_asc') ? 'active fw-bold' : '' %>" href="<%= buildUrl({ sort: 'title_asc' }) %>">
+                                    <i class="fa-solid fa-arrow-down-a-z text-info"></i> Title: A to Z
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-2 <%= (typeof sort !== 'undefined' && sort === 'newest') ? 'active fw-bold' : '' %>" href="<%= buildUrl({ sort: 'newest' }) %>">
+                                    <i class="fa-solid fa-sparkles text-primary"></i> Newest Arrivals
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <!-- Active Filter Indicator Badges -->

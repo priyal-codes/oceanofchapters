@@ -179,22 +179,93 @@ h1 em, h2 em, h3 em, .brand-title em, .text-italic {
     right: 0;
 }
 
-/* Filter & Sort Toolbar */
-.filter-toolbar-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
-    border-color: #e2e8f0 !important;
-}
-
-#catalog-sort-select {
-    cursor: pointer;
-    border-color: #cbd5e1 !important;
+/* Filter & Sort Pill Buttons */
+.filter-pill {
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1 !important;
+    font-weight: 500;
     font-size: 0.88rem;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
 }
 
-#catalog-sort-select:focus {
-    border-color: #0284c7 !important;
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+.filter-pill:hover {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(15, 23, 42, 0.15) !important;
 }
+
+.filter-pill.active {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2) !important;
+}
+
+.custom-sort-menu {
+
+    min-width: 230px;
+    box-shadow: 0 20px 40px -5px rgba(15, 23, 42, 0.2) !important;
+    border: 1px solid #e2e8f0 !important;
+    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.custom-sort-menu .dropdown-item {
+    font-size: 0.9rem;
+    color: #334155;
+    transition: all 0.2s ease;
+}
+
+.custom-sort-menu .dropdown-item:hover {
+    background-color: #f1f5f9;
+    color: #0284c7;
+    transform: translateX(3px);
+}
+
+.custom-sort-menu .dropdown-item.active {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+
+.dropdown-toggle-custom {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    font-size: 0.88rem;
+    transition: all 0.25s ease !important;
+}
+
+.dropdown-toggle-custom span,
+.dropdown-toggle-custom i.fa-chevron-down {
+    color: #0f172a !important;
+    transition: color 0.25s ease !important;
+}
+
+.dropdown-toggle-custom:hover,
+.dropdown-toggle-custom:focus,
+.dropdown-toggle-custom.show {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2) !important;
+}
+
+.dropdown-toggle-custom:hover span,
+.dropdown-toggle-custom:hover i.fa-chevron-down,
+.dropdown-toggle-custom:focus span,
+.dropdown-toggle-custom:focus i.fa-chevron-down,
+.dropdown-toggle-custom.show span,
+.dropdown-toggle-custom.show i.fa-chevron-down {
+    color: #ffffff !important;
+}
+
+
 
 /* Genre Pills */
 
