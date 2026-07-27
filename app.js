@@ -110,6 +110,9 @@ app.get("/terms", (req, res) => {
 app.get("/books/:id", wrapAsync(async (req, res) => {
     let {id} = req.params;
     const book = await Book.findById(id).populate("reviews");
+    if (!book) {
+        throw new ExpressError(404, "Book Not Found!");
+    }
     res.render("books/show.ejs", { book });
 }));
 
@@ -131,7 +134,7 @@ app.get("/cart", wrapAsync(async (req, res) => {
 }));
 
 
-//Add Cart Route
+//Add Cart Route (Redirects back to Referrer)
 app.post("/cart/add/:id", wrapAsync(async (req, res) => {
   const bookId = req.params.id;
   const cart = req.session.cart;
@@ -147,7 +150,32 @@ app.post("/cart/add/:id", wrapAsync(async (req, res) => {
   }
 
   req.session.cart = cart;
-  res.redirect("/books");
+  const backUrl = req.get("Referrer") || "/cart";
+  res.redirect(backUrl);
+}));
+
+// Checkout Route
+app.get("/checkout", wrapAsync(async (req, res) => {
+  const cart = req.session.cart;
+  const populatedItems = [];
+  let total = 0;
+
+  for (let item of cart.items) {
+    const book = await Book.findById(item.book);
+    if (book) {
+      populatedItems.push({ book, quantity: item.quantity });
+      total += book.price * item.quantity;
+    }
+  }
+
+  res.render("cart/checkout.ejs", { cart: { items: populatedItems }, total });
+}));
+
+// Process Checkout Order Route
+app.post("/checkout", wrapAsync(async (req, res) => {
+  // Clear cart upon successful checkout order
+  req.session.cart = { items: [] };
+  res.render("cart/success.ejs", { orderId: "OOC-" + Math.floor(100000 + Math.random() * 900000) });
 }));
 
 
@@ -176,11 +204,11 @@ app.post("/cart/decrease/:id", wrapAsync(async (req, res) => {
 
   const item = cart.items.find(i => i.book === bookId);
   if (item) {
-  item.quantity--;
-  if (item.quantity <= 0) {
-    cart.items = cart.items.filter(i => i.book !== bookId);
+    item.quantity--;
+    if (item.quantity <= 0) {
+      cart.items = cart.items.filter(i => i.book !== bookId);
+    }
   }
-}
 
   req.session.cart = cart;
   res.redirect("/cart");
@@ -197,10 +225,12 @@ app.post("/cart/remove/:id", wrapAsync(async (req, res) => {
   res.redirect("/cart");
 }));
 
-//Reviews
-//Post Route
-app.post("/books/:id/reviews", async(req, res) => {
+//Reviews - Post Route
+app.post("/books/:id/reviews", wrapAsync(async(req, res) => {
   let book = await Book.findById(req.params.id);
+  if (!book) {
+      throw new ExpressError(404, "Book Not Found!");
+  }
   let newReview = new Review(req.body.review);
 
   book.reviews.push(newReview);
@@ -209,7 +239,8 @@ app.post("/books/:id/reviews", async(req, res) => {
   await book.save();
 
   res.redirect(`/books/${book._id}`);
-});
+}));
+
 
 // Delete Review Route
 app.delete("/books/:id/reviews/:reviewId",

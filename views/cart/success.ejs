@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate") -%>
+
+<div class="container my-5 text-center max-w-2xl mx-auto py-4">
+    <div class="card border rounded-4 p-5 shadow-sm bg-white">
+        <div class="bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 90px; height: 90px;">
+            <i class="fa-solid fa-circle-check display-4"></i>
+        </div>
+
+        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 mb-3 fw-semibold">
+            Order Confirmed!
+        </span>
+
+        <h1 class="font-serif display-5 fw-bold mb-2">Thank You for Your <em>Order</em>! 🎉</h1>
+        <p class="text-muted lead mb-4">Your book order has been successfully placed. We're packing your books with love & a collector bookmark!</p>
+
+        <div class="bg-light p-3 rounded-3 border mb-4 d-inline-block text-center mx-auto">
+            <small class="text-uppercase tracking-wider text-muted fw-bold d-block mb-1">Order Reference Number</small>
+            <span class="font-monospace fs-4 fw-bold text-primary"><%= orderId %></span>
+        </div>
+
+        <div class="row g-3 text-start mb-4 max-w-md mx-auto small text-muted">
+            <div class="col-6">
+                <i class="fa-solid fa-truck-fast text-success me-1"></i> Delivery: <strong>3-5 Business Days</strong>
+            </div>
+            <div class="col-6">
+                <i class="fa-solid fa-envelope text-primary me-1"></i> Confirmation: <strong>Email Sent</strong>
+            </div>
+        </div>
+
+        <div>
+            <a href="/books" class="btn btn-ocean-primary btn-lg rounded-pill px-5 py-3 shadow fw-bold">
+                <i class="fa-solid fa-book-open me-2"></i> Continue Exploring Books
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,121 @@
+<% layout("/layouts/boilerplate") -%>
+
+<div class="container my-5 max-w-4xl mx-auto">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Home</a></li>
+            <li class="breadcrumb-item"><a href="/cart" class="text-decoration-none text-muted">Cart</a></li>
+            <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Checkout</li>
+        </ol>
+    </nav>
+
+    <div class="text-center mb-5">
+        <h1 class="font-serif display-5 mb-2">Complete Your <em>Order</em> 📦</h1>
+        <p class="text-muted">Enter your shipping details below to complete your book purchase.</p>
+    </div>
+
+    <% if (!cart || !cart.items || cart.items.length === 0) { %>
+        <div class="text-center py-5 bg-white rounded-4 border shadow-sm p-4">
+            <h5>Your cart is empty</h5>
+            <a href="/books" class="btn btn-primary rounded-pill px-4 mt-2">Explore Books</a>
+        </div>
+    <% } else { %>
+        <form action="/checkout" method="POST" class="needs-validation" novalidate>
+            <div class="row g-4">
+                <!-- Left: Shipping & Payment Form -->
+                <div class="col-lg-7">
+                    <div class="card border rounded-4 p-4 shadow-sm bg-white mb-4">
+                        <h4 class="font-serif fw-bold mb-3 border-bottom pb-2">1. Shipping <em>Address</em></h4>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="fullName" class="form-label fw-semibold small">Full Name</label>
+                                <input type="text" class="form-control rounded-3 shadow-none" id="fullName" placeholder="e.g. Priyal Sharma" required>
+                                <div class="invalid-feedback">Please enter your name.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label fw-semibold small">Phone Number</label>
+                                <input type="tel" class="form-control rounded-3 shadow-none" id="phone" placeholder="+91 98765 43210" required>
+                                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="address" class="form-label fw-semibold small">Street Address</label>
+                                <input type="text" class="form-control rounded-3 shadow-none" id="address" placeholder="House/Flat No, Street, Landmark" required>
+                                <div class="invalid-feedback">Please enter your shipping address.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="city" class="form-label fw-semibold small">City / Town</label>
+                                <input type="text" class="form-control rounded-3 shadow-none" id="city" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pincode" class="form-label fw-semibold small">PIN Code</label>
+                                <input type="text" class="form-control rounded-3 shadow-none" id="pincode" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border rounded-4 p-4 shadow-sm bg-white">
+                        <h4 class="font-serif fw-bold mb-3 border-bottom pb-2">2. Payment <em>Method</em></h4>
+                        
+                        <div class="d-flex flex-column gap-2">
+                            <div class="form-check border p-3 rounded-3 bg-light d-flex align-items-center">
+                                <input class="form-check-input me-3 ms-1" type="radio" name="paymentMethod" id="cod" value="COD" checked>
+                                <label class="form-check-input-label fw-bold mb-0 text-dark" for="cod">
+                                    <i class="fa-solid fa-truck-ramp-box me-2 text-success"></i> Cash on Delivery (COD)
+                                    <small class="d-block text-muted fw-normal">Pay cash when your books are delivered</small>
+                                </label>
+                            </div>
+                            <div class="form-check border p-3 rounded-3 bg-light d-flex align-items-center">
+                                <input class="form-check-input me-3 ms-1" type="radio" name="paymentMethod" id="upi" value="UPI">
+                                <label class="form-check-input-label fw-bold mb-0 text-dark" for="upi">
+                                    <i class="fa-solid fa-qrcode me-2 text-primary"></i> UPI / NetBanking / Cards
+                                    <small class="d-block text-muted fw-normal">Instant digital payment</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Order Items & Submit -->
+                <div class="col-lg-5">
+                    <div class="card border rounded-4 p-4 shadow-sm bg-white position-sticky" style="top: 100px;">
+                        <h4 class="font-serif fw-bold mb-3 border-bottom pb-2">Order <em>Items</em> (<%= cart.items.length %>)</h4>
+                        
+                        <div class="d-flex flex-column gap-2 mb-3 max-h-60 overflow-auto">
+                            <% cart.items.forEach(item => { %>
+                                <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                                    <div class="d-flex align-items-center gap-2 overflow-hidden me-2">
+                                        <img src="<%= item.book.image %>" alt="<%= item.book.title %>" class="rounded" style="width: 36px; height: 50px; object-fit: contain;">
+                                        <div class="text-truncate small">
+                                            <div class="fw-bold text-dark text-truncate"><%= item.book.title %></div>
+                                            <div class="text-muted extra-small">Qty: <%= item.quantity %> × &#8377;<%= item.book.price %></div>
+                                        </div>
+                                    </div>
+                                    <div class="fw-bold small text-dark me-1">&#8377;<%= (item.book.price * item.quantity).toLocaleString("en-IN") %></div>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2 text-muted">
+                            <span>Subtotal</span>
+                            <span class="fw-bold text-dark">&#8377;<%= total.toLocaleString("en-IN") %></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 text-muted">
+                            <span>Shipping</span>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">FREE</span>
+                        </div>
+                        <hr class="my-2">
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fs-5 fw-bold">Total Pay</span>
+                            <span class="fs-4 fw-bold text-success">&#8377;<%= total.toLocaleString("en-IN") %></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-ocean-primary btn-lg rounded-pill w-100 fw-bold shadow py-3">
+                            <i class="fa-solid fa-check-circle me-2"></i> Place Order Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <% } %>
+</div>
