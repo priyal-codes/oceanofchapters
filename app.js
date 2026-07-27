@@ -14,7 +14,8 @@ const Review = require("./models/review.js");
 const methodOverride = require("method-override");
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/oceanofchapters";
+const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/oceanofchapters";
+
 
 main()
 .then(() => {
@@ -53,7 +54,7 @@ app.get("/", (req, res) => {
 
 //Index Route
 app.get("/books", wrapAsync(async(req, res) => {
-    const allBooks = await Book.find({});
+    const allBooks = await Book.find({ isHidden: { $ne: true } });
     res.render("books/index.ejs", {allBooks});
 }));
 

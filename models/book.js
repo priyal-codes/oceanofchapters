@@ -34,7 +34,11 @@ const bookSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Review"
     }
-  ]
+  ],
+  isHidden: {
+      type: Boolean,
+      default: false
+  }
 });
 
 const Book = mongoose.model("Book", bookSchema);

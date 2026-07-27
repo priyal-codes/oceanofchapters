@@ -62,7 +62,8 @@ const sampleBooks = [
     releasedate: new Date("2021-09-14"),
     country: "United States",
     genre: "Romance",
-    pages: 376
+    pages: 376,
+    isHidden: true
   },
   {
     title: "One of Us Is Lying",
