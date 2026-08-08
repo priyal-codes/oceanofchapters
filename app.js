@@ -237,12 +237,23 @@ app.post("/wishlist/toggle/:id", wrapAsync(async (req, res) => {
     req.session.wishlist = { items: [] };
   }
   const index = req.session.wishlist.items.findIndex(id => id.toString() === bookId);
+  let isWishlisted = false;
   if (index > -1) {
     req.session.wishlist.items.splice(index, 1);
+    isWishlisted = false;
   } else {
     req.session.wishlist.items.push(bookId);
+    isWishlisted = true;
   }
   req.session.save(() => {
+    if (req.xhr || (req.headers.accept && req.headers.accept.includes("application/json")) || req.get("X-Requested-With") === "XMLHttpRequest") {
+      return res.json({
+        success: true,
+        isWishlisted,
+        wishlistCount: req.session.wishlist.items.length,
+        bookId
+      });
+    }
     const backUrl = req.get("Referrer") || "/wishlist";
     res.redirect(backUrl);
   });

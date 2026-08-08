@@ -173,7 +173,7 @@
                     <div class="card h-100 book-home-card border-0 shadow-sm rounded-4 overflow-hidden">
                         <div class="position-relative overflow-hidden book-img-container">
                             <!-- Wishlist Heart Toggle Button (Top-Left Cover) -->
-                            <form action="/wishlist/toggle/<%= book._id %>" method="POST" class="position-absolute top-0 start-0 m-2" style="z-index: 10;">
+                            <form action="/wishlist/toggle/<%= book._id %>" method="POST" class="position-absolute top-0 start-0 m-2 wishlist-toggle-form" data-book-id="<%= book._id %>" style="z-index: 10;">
                                 <button type="submit" class="btn btn-white rounded-circle shadow-sm border-0 p-0 d-flex align-items-center justify-content-center bg-white" style="width: 34px; height: 34px; box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;" title="<%= isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist' %>">
                                     <i class="<%= isWishlisted ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart text-dark opacity-75' %> fs-6"></i>
                                 </button>

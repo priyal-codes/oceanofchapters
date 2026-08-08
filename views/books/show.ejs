@@ -50,10 +50,10 @@
                         </button>
                     </form>
 
-                    <form action="/wishlist/toggle/<%= book._id %>" method="POST" class="d-inline">
+                    <form action="/wishlist/toggle/<%= book._id %>" method="POST" class="d-inline wishlist-toggle-form" data-book-id="<%= book._id %>" data-view="detail">
                         <button type="submit" class="btn <%= isWishlisted ? 'btn-danger text-white' : 'btn-outline-danger' %> btn-lg rounded-pill px-4 py-3 fw-semibold">
                             <i class="<%= isWishlisted ? 'fa-solid fa-heart' : 'fa-regular fa-heart' %> me-2"></i>
-                            <%= isWishlisted ? 'Saved in Wishlist' : 'Add to Wishlist' %>
+                            <span class="wishlist-btn-text"><%= isWishlisted ? 'Saved in Wishlist' : 'Add to Wishlist' %></span>
                         </button>
                     </form>
                 </div>

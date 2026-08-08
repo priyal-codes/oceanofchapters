@@ -46,9 +46,8 @@
                 <a class="nav-link fw-medium position-relative d-inline-flex align-items-center gap-1 <%= (typeof currentPath !== 'undefined' && currentPath === '/wishlist') ? 'active-nav' : '' %>" href="/wishlist">
                     <i class="fa-solid fa-heart text-danger me-1"></i>
                     <span>Wishlist</span>
-                    <% if (typeof wishlistCount !== 'undefined' && wishlistCount > 0) { %>
-                        <span class="badge bg-danger rounded-circle px-2 py-1 small ms-1"><%= wishlistCount %></span>
-                    <% } %>
+                    <% const count = typeof wishlistCount !== 'undefined' ? wishlistCount : 0; %>
+                    <span class="badge bg-danger rounded-circle px-2 py-1 small ms-1 wishlist-badge-count <%= count > 0 ? '' : 'd-none' %>"><%= count %></span>
                 </a>
 
                 
